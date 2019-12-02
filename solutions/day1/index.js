@@ -11,6 +11,15 @@ const computeFuelPerModule = mass => {
   return Math.floor(mass / 3) - 2
 }
 
+const computeTotalFuelRequired = (fuel, runningTotal = 0) => {
+  const totalFuel = computeFuelPerModule(fuel)
+  if (totalFuel > 0) {
+    return computeTotalFuelRequired(totalFuel, (runningTotal += totalFuel))
+  } else {
+    return runningTotal
+  }
+}
+
 const run = () => {
   const moduleMasses = fs
     .readFileSync(INPUT_PATH, 'utf-8')
@@ -18,11 +27,17 @@ const run = () => {
     .filter(Boolean)
     .map(numStr => Number(numStr))
 
-  const totalFuel = moduleMasses.reduce(
+  const totalFuelForModules = moduleMasses.reduce(
     (acc, curr) => computeFuelPerModule(curr) + acc,
     0,
   )
 
-  console.log(totalFuel)
+  const totalFuelRequired = moduleMasses.reduce(
+    (acc, curr) => computeTotalFuelRequired(curr) + acc,
+    0,
+  )
+
+  console.log(`[Part 1] fuel required for all modules: ${totalFuelForModules}`)
+  console.log(`[Part 2] total fuel required: ${totalFuelRequired}`)
 }
 run()
