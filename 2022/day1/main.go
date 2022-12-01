@@ -4,13 +4,14 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"sort"
 )
 
 func main() {
-	max := 0
 	input, _ := os.Open("input.txt")
 	scanner := bufio.NewScanner(input)
 
+	sums := []int{}
 	sum := 0
 	for {
 		var num int
@@ -21,15 +22,19 @@ func main() {
 				sum += num
 			}
 		} else {
-			if sum > max {
-				max = sum
-			}
+			sums = append(sums, sum)
 			sum = 0
 		}
 
 		if more := scanner.Scan(); more == false {
 			break
 		}
+	}
+
+	sort.Ints(sums)
+	max := 0
+	for _, num := range sums[len(sums)-3:] {
+		max += num
 	}
 
 	fmt.Println(max)
