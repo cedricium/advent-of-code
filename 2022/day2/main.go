@@ -8,8 +8,8 @@ import (
 )
 
 const (
-	WIN  int = 6
-	DRAW int = 3
+	WIN_SCORE  int = 6
+	DRAW_SCORE int = 3
 
 	SCORE_ROCK     int = 1
 	SCORE_PAPER    int = 2
@@ -18,6 +18,10 @@ const (
 	ROCK     string = "A"
 	PAPER    string = "B"
 	SCISSORS string = "C"
+
+	LOSE string = "X"
+	DRAW string = "Y"
+	WIN  string = "Z"
 )
 
 func main() {
@@ -32,9 +36,13 @@ func main() {
 		score := 0
 
 		if round != "" {
-			shapes := strings.Split(round, " ")
-			score += calculateShapeScore(shapes[1])
-			score += calculateRoundOutcome(shapes)
+			strategy := strings.Split(round, " ")
+			opponentShape := strategy[0]
+			desiredOutcome := strategy[1]
+
+			shape := determineShapeByOutcome(opponentShape, desiredOutcome)
+			score += calculateShapeScore(shape)
+			score += calculateRoundOutcome([]string{opponentShape, shape})
 			sum += score
 		}
 	}
@@ -46,11 +54,11 @@ func calculateShapeScore(shape string) int {
 	score := 0
 
 	switch shape {
-	case "X":
+	case ROCK, "X":
 		score += SCORE_ROCK
-	case "Y":
+	case PAPER, "Y":
 		score += SCORE_PAPER
-	case "Z":
+	case SCISSORS, "Z":
 		score += SCORE_SCISSORS
 	}
 
@@ -61,25 +69,50 @@ func calculateRoundOutcome(shapes []string) int {
 	score := 0
 
 	switch shapes[1] {
-	case "X": // ROCK
+	case ROCK, "X":
 		if shapes[0] == ROCK {
-			score += DRAW
+			score += DRAW_SCORE
 		} else if shapes[0] == SCISSORS {
-			score += WIN
+			score += WIN_SCORE
 		}
-	case "Y": // PAPER
+	case PAPER, "Y":
 		if shapes[0] == ROCK {
-			score += WIN
+			score += WIN_SCORE
 		} else if shapes[0] == PAPER {
-			score += DRAW
+			score += DRAW_SCORE
 		}
-	case "Z": // SCISSORS
+	case SCISSORS, "Z":
 		if shapes[0] == PAPER {
-			score += WIN
+			score += WIN_SCORE
 		} else if shapes[0] == SCISSORS {
-			score += DRAW
+			score += DRAW_SCORE
 		}
 	}
 
 	return score
+}
+
+func determineShapeByOutcome(shape string, outcome string) string {
+	switch outcome {
+	case WIN:
+		if shape == ROCK {
+			return PAPER
+		} else if shape == PAPER {
+			return SCISSORS
+		} else {
+			return ROCK
+		}
+	case DRAW:
+		return shape
+	case LOSE:
+		if shape == ROCK {
+			return SCISSORS
+		} else if shape == PAPER {
+			return ROCK
+		} else {
+			return PAPER
+		}
+	default:
+		return ""
+	}
 }
