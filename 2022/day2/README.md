@@ -39,6 +39,6 @@ In this example, if you were to follow the strategy guide, you would get a total
 <details>
 <summary>Spoiler</summary>
 
-``
+`14827`
 
 </details>
