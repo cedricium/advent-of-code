@@ -12,8 +12,7 @@ func main() {
 	scanner := bufio.NewScanner(input)
 	sum := 0
 
-	open := scanner.Scan()
-	for open {
+	for open := scanner.Scan(); open; {
 		group := []string{}
 
 		for i := 0; i < 3; i++ {

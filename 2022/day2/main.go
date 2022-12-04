@@ -29,9 +29,7 @@ func main() {
 	scanner := bufio.NewScanner(input)
 
 	sum := 0
-	open := true
-	for open {
-		open = scanner.Scan()
+	for open := scanner.Scan(); open; open = scanner.Scan() {
 		round := scanner.Text()
 		score := 0
 

@@ -13,7 +13,7 @@ func main() {
 
 	sums := []int{}
 	sum := 0
-	for {
+	for more := scanner.Scan(); more; more = scanner.Scan() {
 		var num int
 		line := scanner.Text()
 
@@ -24,10 +24,6 @@ func main() {
 		} else {
 			sums = append(sums, sum)
 			sum = 0
-		}
-
-		if more := scanner.Scan(); more == false {
-			break
 		}
 	}
 
