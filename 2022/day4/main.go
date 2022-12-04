@@ -32,6 +32,6 @@ func checkForOverlap(a, b []string) bool {
 	fmt.Sscan(b[0], &bStart)
 	fmt.Sscan(b[1], &bEnd)
 
-	return aStart >= bStart && aStart <= bEnd && aEnd <= bEnd ||
-		bStart >= aStart && bStart <= aEnd && bEnd <= aEnd
+	return aStart >= bStart && aStart <= bEnd ||
+		bStart >= aStart && bStart <= aEnd
 }
