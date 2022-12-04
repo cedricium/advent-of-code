@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"sort"
 )
 
 func main() {
@@ -13,18 +14,42 @@ func main() {
 
 	open := scanner.Scan()
 	for open {
-		rucksack := scanner.Text()
-		left := rucksack[:len(rucksack)/2]
-		right := rucksack[len(rucksack)/2:]
+		group := []string{}
 
-		common := findCommonItem(left, right)
+		for i := 0; i < 3; i++ {
+			rucksack := scanner.Text()
+			group = append(group, rucksack)
+			open = scanner.Scan()
+		}
+
+		sort.Strings(group)
+		common := findGroupCommonItem(group)
 		priority := calculatePriority(common)
 		sum += priority
-
-		open = scanner.Scan()
 	}
 
 	fmt.Println(sum)
+}
+
+func findGroupCommonItem(a []string) (common rune) {
+	mid := map[rune]bool{}
+	for _, char := range a[1] {
+		mid[char] = true
+	}
+
+	long := map[rune]bool{}
+	for _, char := range a[2] {
+		long[char] = true
+	}
+
+	for _, char := range a[0] {
+		if mid[char] && long[char] {
+			common = char
+			return
+		}
+	}
+
+	return
 }
 
 func findCommonItem(a, b string) (common rune) {
