@@ -18,7 +18,6 @@ func main() {
 		right := strings.Split(pairs[1], "-")
 
 		if overlaps := checkForOverlap(left, right); overlaps {
-			fmt.Println(left, right, overlaps)
 			sum += 1
 		}
 	}
