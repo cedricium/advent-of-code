@@ -40,14 +40,19 @@ func main() {
 		fmt.Sscan(tokens[3], &from)
 		fmt.Sscan(tokens[5], &to)
 
-		for i := 0; i < count; i++ {
-			crate := string(stacks[from-1][0])
-			stacks[from-1] = stacks[from-1][1:]
-			stacks[to-1] = crate + stacks[to-1]
-		}
+		// -- Part 1 ---
+		// for i := 0; i < count; i++ {
+		// 	crate := string(stacks[from-1][0])
+		// 	stacks[from-1] = stacks[from-1][1:]
+		// 	stacks[to-1] = crate + stacks[to-1]
+		// }
+
+		// -- Part 2 ---
+		crates := string(stacks[from-1][:count])
+		stacks[from-1] = stacks[from-1][count:]
+		stacks[to-1] = crates + stacks[to-1]
 	}
 
-	// LAST CRATE PER STACK
 	for i := 0; i < len(stacks); i++ {
 		fmt.Print(string(stacks[i][0]))
 	}
