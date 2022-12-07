@@ -7,7 +7,7 @@ import (
 	"os"
 )
 
-const markerSequenceLength = 4
+const markerSequenceLength = 14
 
 func main() {
 	input, err := os.Open("input.txt")
